@@ -1,4 +1,4 @@
-*This project has been created as part of the 42 curriculum by vborodii, <login2>.*
+*This project has been created as part of the 42 curriculum by vladyslb, sekryzhe.*
 
 # push_swap
 
@@ -69,21 +69,21 @@ python3 tests/bench.py 100 20 --disorder 0.1   # nearly sorted inputs
 
 ### Common building blocks
 
-* **Ranks.** Values are first replaced by their rank (0 = smallest). Only
+* Ranks. Values are first replaced by their rank (0 = smallest). Only
   the order matters, and ranks make chunk bounds trivial. Sorting a copy
   with merge sort also detects duplicates.
-* **Disorder.** Exactly the subject's formula: number of pairs `i < j` with
+* Disorder. Exactly the subject's formula: number of pairs `i < j` with
   `a[i] > a[j]`, divided by `n(n-1)/2`, measured before any move. Regimes
   are compared with integers (`5·mis < tot` means `d < 0.2`), so there is
   no floating-point error at the thresholds.
-* **Stacks** are circular buffers: every rotation is O(1).
-* **Cheapest insertion** (`greedy_insert`). Stack `a` is kept sorted up to a
+* Stacks are circular buffers: every rotation is O(1).
+* Cheapest insertion** (`greedy_insert`). Stack `a` is kept sorted up to a
   rotation. For a candidate `x` in `b`, the target in `a` (the smallest
   element bigger than `x`) is found by binary search. Moving it costs
   `max(ra, rb)` if both stacks rotate the same way (shared `rr`/`rrr`) and
   `ra + rb` otherwise. The 4 direction combinations are tried and the
   cheapest candidate is inserted with `pa`.
-* **Peephole optimizer.** Between two pushes, moves on `a` and moves on `b`
+* Peephole optimizer.** Between two pushes, moves on `a` and moves on `b`
   are independent. The optimizer splits each segment into an a-list and a
   b-list, cancels inverse neighbours (`ra rra`, `sa sa`), then merges the two
   lists optimally (longest common subsequence) into `rr`, `rrr` and `ss`.
@@ -143,15 +143,15 @@ plus O(log n) recursion depth.
 | medium                | 0.2 ≤ d < 0.5     | √n-chunk sort (as `--medium`)   | O(n√n)     |
 | high                  | d ≥ 0.5           | 3-way quicksort (as `--complex`)| O(n log n) |
 
-**Low disorder: LIS + insertion.** The longest increasing subsequence of `a`
+Low disorder: LIS + insertion. The longest increasing subsequence of `a`
 (read cyclically from the minimum, found by patience sorting) is already in
 order, so it stays in `a`. Only the other `k` elements are pushed to `b`
 (nearest first) and put back with cheapest insertion. Each push costs at most
 `n/2` rotations and each insertion at most `n` rotations, so the worst case is
-**O(n²)**. Since `k ≤ n`, the practical cost is `O(n + k·n)`, and `k` is small
+O(n²). Since `k ≤ n`, the practical cost is `O(n + k·n)`, and `k` is small
 when the input is nearly sorted.
 
-**Why these techniques per regime.** With low disorder most of the input is
+Why these techniques per regime. With low disorder most of the input is
 already ordered. A method that keeps the ordered part in place, like LIS, only
 pays for the few misplaced elements. Its O(n²) worst case is allowed there and
 never reached in practice. At medium disorder there is no long ordered run
@@ -191,8 +191,8 @@ input: only rotations.
 
 ## Contributions
 
-* **vborodii**: _to fill in (e.g. parsing, stacks, quicksort, tests)_
-* **<login2>**: _to fill in (e.g. disorder, medium/adaptive, checker, README)_
+vladyslb: _to fill in (parsing, stacks, quicksort, tests)_
+sekryzhe: _to fill in (disorder, medium/adaptive, checker, README)
 
 ## Resources
 
@@ -214,8 +214,4 @@ An AI assistant was used to:
   disorder, `--bench`, error cases);
 * propose and discuss algorithm designs, and draft code for them, which we
   then reviewed, tested and adjusted;
-* write the test script (`tests/bench.py`) and tune the medium chunk size;
 * draft this README.
-
-Every part of the code was read, tested with `checker_linux` and discussed
-between us; we can explain and modify any of it.
